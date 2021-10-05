@@ -1,16 +1,5 @@
 // Based on:
 // https://raw.githubusercontent.com/redhat-cop/container-pipelines/master/basic-spring-boot/Jenkinsfile
-
-library identifier: "pipeline-library@v1.5",
-retriever: modernSCM(
-  [
-    $class: "GitSCMSource",
-    remote: "https://github.com/karimbzu/hello-java-spring-boot.git"
-  ]
-)
-
-// The name you want to give your Spring Boot application
-// Each resource related to your app will be given this name
 appName = "hello-java-spring-boot"
 
 pipeline {
@@ -19,7 +8,7 @@ pipeline {
     stages {
         stage("Checkout") {
             steps {
-                checkout scm
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/karimbzu/hello-java-spring-boot.git']]])
             }
         }
         stage("Docker Build") {
